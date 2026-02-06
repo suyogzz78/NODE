@@ -3,6 +3,10 @@ const app = express();
 const port = 3000;
 const users = require("./MOCK_DATA.json");
 
+//middleware
+
+app.use(express.urlencoded({ extended: false }));
+
 //raw data in json format for frontend consumption
 app.get("/api/users", (req, res) => {
   return res.json(users);
@@ -41,6 +45,9 @@ app.route("/api/users/:id").get((req, res) => {
 
 
 app.post("/api/users", (req, res) => {
+
+      const body = req.body;
+      console.log("Request Body:", body);
     return res.send("POST request received to create a new user");
 });
 app.listen(port, () => {
