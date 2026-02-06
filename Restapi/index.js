@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const port = 3000;
+const filesystem = require("fs");
 const users = require("./MOCK_DATA.json");
 
 //middleware
@@ -47,8 +48,15 @@ app.route("/api/users/:id").get((req, res) => {
 app.post("/api/users", (req, res) => {
 
       const body = req.body;
-      console.log("Request Body:", body);
-    return res.send("POST request received to create a new user");
+      users.push({...body, id: users.length + 1});
+      filesystem.writeFile("MOCK_DATA.json", JSON.stringify(users), (err) => {
+          return res.json({
+            status:"success",
+            id: users.length
+          });
+
+      });
+  
 });
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
