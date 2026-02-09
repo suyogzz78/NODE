@@ -1,0 +1,13 @@
+SO WE ARE DESIGNING REST API (JSON REST API)
+
+WE DEAL WITH USERS
+
+IF WE
+GET/users --> LIST ALL THE USERS
+GET/users/1 --> Get the user with ID 1
+GET/users/2 --> Get the user with ID 2
+POST/users ==>Create new user
+PATCH/users/1 --> edit the user with id 1
+DELETE/users/2 --> delete the user with id 2
+
+for now we use mockaroo to take random datas for learning the restapi

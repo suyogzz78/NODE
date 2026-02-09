@@ -8,6 +8,20 @@ const users = require("./MOCK_DATA.json");
 
 app.use(express.urlencoded({ extended: false }));
 
+
+app.use((req,res,next)=>{
+
+  console.log("hello from the middleware 1");
+  next(); // here we are calling the next middleware in the stack, if we don't call next() the request will be stuck in this middleware and will never reach the route handler
+})
+app.use((req,res,next)=>{
+
+  console.log("hello from the middleware 2");// we can use multiple middlewares in our application and they will be executed in the order they are defined
+  next(); // here we are calling the next middleware in the stack, if we don't call next() the request will be stuck in this middleware and will never reach the route handler
+})
+
+
+
 //raw data in json format for frontend consumption
 app.get("/api/users", (req, res) => {
   return res.json(users);
