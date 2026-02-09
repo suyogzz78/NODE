@@ -12,8 +12,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use((req,res,next)=>{
 
   console.log("hello from the middleware 1");
-  next(); // here we are calling the next middleware in the stack, if we don't call next() the request will be stuck in this middleware and will never reach the route handler
+  filesystem.appendFile("log.txt",`\n ${Date.now()} ${req.method} ${req.url}\n`,(err)=>{
+     next(); // here we are calling the next middleware in the stack, if we don't call next() the request will be stuck in this middleware and will never reach the route handler
 })
+  });
+ // return res.end("response from middleware 1");//res.end() is used to end the response and send it back to the client, if we don't call res.end() or res.send() the request will be stuck in this middleware and will never reach the route handler
+ 
 app.use((req,res,next)=>{
 
   console.log("hello from the middleware 2");// we can use multiple middlewares in our application and they will be executed in the order they are defined
