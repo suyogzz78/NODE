@@ -12,3 +12,9 @@
  1770808416458 POST/api/users
 
  1770808444317 POST/api/users
+
+ 1770809554852 GET/api/users
+
+ 1770809631264 GET/api/users
+
+ 1770809654960 POST/api/users

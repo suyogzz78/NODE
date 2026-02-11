@@ -66,12 +66,16 @@ app.route("/api/users/:id").get((req, res) => {
 app.post("/api/users", (req, res) => {
 
       const body = req.body;
+      if(!body || !body.first_name || !body.last_name || !body.email || !body.gender){
+        return res.status(400).json({msg:"Bad request, missing required fields"});
+      }
+       
       users.push({...body, id: users.length + 1});
       filesystem.writeFile("MOCK_DATA.json", JSON.stringify(users), (err) => {
           return res.status(201).json({//201 is the status code for created resource
             status:"success",
             id: users.length
-          });
+          });   
 
       });
   
