@@ -12,7 +12,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use((req,res,next)=>{
 
   console.log("hello from the middleware 1");
-  filesystem.appendFile("log.txt",`\n ${Date.now()} ${req.method} ${req.url}\n`,(err)=>{
+  filesystem.appendFile("log.txt",`\n ${Date.now()} ${req.method}${req.url}\n`,(err)=>{
      next(); // here we are calling the next middleware in the stack, if we don't call next() the request will be stuck in this middleware and will never reach the route handler
 })
   });
@@ -68,7 +68,7 @@ app.post("/api/users", (req, res) => {
       const body = req.body;
       users.push({...body, id: users.length + 1});
       filesystem.writeFile("MOCK_DATA.json", JSON.stringify(users), (err) => {
-          return res.json({
+          return res.status(201).json({//201 is the status code for created resource
             status:"success",
             id: users.length
           });
