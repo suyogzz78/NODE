@@ -6,6 +6,16 @@ const users = require("./MOCK_DATA.json");
  const mongoose = require("mongoose");
 const { type } = require("os");
 
+//connect to the database
+mongoose
+.connect("mongodb://127.0.0.1:27017/")
+.then(()=>{
+  console.log("Connected to the database");
+})
+.catch((err)=>{
+  console.log("Error connecting to the database", err);
+})
+
  const Userschema = new mongoose.Schema({// this is the schema for the user model, it defines the structure of the user document in the database
   first_name :{
     type: String,
@@ -29,6 +39,8 @@ const { type } = require("os");
 
  })
 
+
+ const User = mongoose.model("User", Userschema); // this is the user model, it is used to interact with the user collection in the database
 
 //middleware
 
