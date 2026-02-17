@@ -3,6 +3,32 @@ const app = express();
 const port = 3000;
 const filesystem = require("fs");
 const users = require("./MOCK_DATA.json");
+ const mongoose = require("mongoose");
+const { type } = require("os");
+
+ const Userschema = new mongoose.Schema({// this is the schema for the user model, it defines the structure of the user document in the database
+  first_name :{
+    type: String,
+    required: true
+  },
+  last_name :{
+    type: String,
+  },
+  email :{
+    type: String,
+    required: true,
+    unique: true // this will ensure that no two users can have the same email address in the database
+  },
+  gender :{
+    type: String,
+  },
+  car_model :{
+    type: String,
+  }
+
+
+ })
+
 
 //middleware
 
@@ -52,7 +78,7 @@ app.route("/api/users/:id").get((req, res) => {
   const id = Number(req.params.id);
   const user = users.find((u) => u.id === id);
   if(!user){
-    return res.status(404).json({msg:"User not found"});
+    return res.status(404).json({msg:"User not found"}) ;
   }
   return res.json(user);
 }).patch((req,res)=>{
@@ -71,7 +97,7 @@ app.post("/api/users", (req, res) => {
       const body = req.body;
       if(!body || !body.first_name || !body.last_name || !body.email || !body.gender){
         return res.status(400).json({msg:"Bad request, missing required fields"});
-      }
+      }  
        
       users.push({...body, id: users.length + 1});
       filesystem.writeFile("MOCK_DATA.json", JSON.stringify(users), (err) => {
