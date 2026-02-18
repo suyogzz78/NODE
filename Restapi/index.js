@@ -2,13 +2,13 @@ const express = require("express");
 const app = express();
 const port = 3000;
 const filesystem = require("fs");
-const users = require("./MOCK_DATA.json");
+//const users = require("./MOCK_DATA.json");
  const mongoose = require("mongoose");
 const { type } = require("os");
 
 //connect to the database
 mongoose
-.connect("mongodb://127.0.0.1:27017/")
+.connect("mongodb://127.0.0.1:27017/suyogdb")
 .then(()=>{
   console.log("Connected to the database");
 })
@@ -37,7 +37,7 @@ mongoose
   }
 
 
- })
+ },{timestamps: true});// this will add createdAt and updatedAt fields to the user document in the database
 
 
  const User = mongoose.model("User", Userschema); // this is the user model, it is used to interact with the user collection in the database
@@ -65,24 +65,28 @@ app.use((req,res,next)=>{
 
 
 //raw data in json format for frontend consumption
-app.get("/api/users", (req, res) => {
-  return res.json(users);
-});
+
 
 //html data for server side rendering
-app.get("/users", (req, res) => {
+app.get("/users", async(req, res) => {
+  const dbusers = await User.find({});
   const html = `
     <ul>
-        ${users
+        ${dbusers
           .map((user) => {
-            return `<li> ${user.first_name} ${user.last_name} </li>`;
+            return `<li> ${user.first_name} ${user.last_name} - ${user.email} </li>`;
           })
           .join("")}
 
-    </ul>
+    </ul> 
     
     `;
   res.send(html);
+});
+
+app.get("/api/users",async (req,res)=>{
+    const dbusers = await User.find({});
+  return res.json(dbusers);
 });
 app.route("/api/users/:id").get((req, res) => {
   //using dynamic route parameter
@@ -104,21 +108,31 @@ app.route("/api/users/:id").get((req, res) => {
 });
 
 
-app.post("/api/users", (req, res) => {
+app.post("/api/users",async  (req, res) => {
 
       const body = req.body;
       if(!body || !body.first_name || !body.last_name || !body.email || !body.gender){
         return res.status(400).json({msg:"Bad request, missing required fields"});
       }  
        
-      users.push({...body, id: users.length + 1});
-      filesystem.writeFile("MOCK_DATA.json", JSON.stringify(users), (err) => {
-          return res.status(201).json({//201 is the status code for created resource
-            status:"success",
-            id: users.length
-          });   
+      // users.push({...body, id: users.length + 1});
+      // filesystem.writeFile("MOCK_DATA.json", JSON.stringify(users), (err) => {
+      //     return res.status(201).json({//201 is the status code for created resource
+      //       status:"success",
+      //       id: users.length
+      //     });   
 
-      });
+      // });
+  const result = await User.create({
+    first_name: body.first_name,
+    last_name: body.last_name,
+    email: body.email,
+    gender: body.gender,
+    car_model: body.car_model,
+  })
+      console.log("User created successfully", result);
+
+  return res.status(201).json({msg:"User created successfully", id: result._id});
   
 });
 app.listen(port, () => {
