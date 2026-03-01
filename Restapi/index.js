@@ -12,6 +12,7 @@ mongoose
 .then(()=>{
   console.log("Connected to the database");
 })
+
 .catch((err)=>{
   console.log("Error connecting to the database", err);
 })
@@ -71,7 +72,7 @@ app.use((req,res,next)=>{
 app.get("/users", async(req, res) => {
   const dbusers = await User.find({});
   const html = `
-    <ul>
+    <ul> 
         ${dbusers
           .map((user) => {
             return `<li> ${user.first_name} ${user.last_name} - ${user.email} </li>`;
@@ -88,22 +89,23 @@ app.get("/api/users",async (req,res)=>{
     const dbusers = await User.find({});
   return res.json(dbusers);
 });
-app.route("/api/users/:id").get((req, res) => {
+app.route("/api/users/:id").get(async (req, res) => {
   //using dynamic route parameter
 
-  const id = Number(req.params.id);
-  const user = users.find((u) => u.id === id);
+  const user = await User.findById(req.params.id);
   if(!user){
     return res.status(404).json({msg:"User not found"}) ;
   }
   return res.json(user);
-}).patch((req,res)=>{
+}).patch(async(req,res)=>{
+   await User.findByIdAndUpdate(req.params.id, {last_name: "Updated last name"});// this will update the user document with the given id and return the updated document in the response
     return res.send("PATCH request received for user with id: " + req.params.id);
 })
 .put((req,res)=>{
     return res.send("PUT request received for user with id: " + req.params.id);
 })
-.delete((req,res)=>{
+.delete(async(req,res)=>{
+  await User.findByIdAndDelete(req.params.id);// this will delete the user document with the given id and return the deleted document in the response
     return res.send("DELETE request received for user with id: " + req.params.id);
 });
 
@@ -123,7 +125,7 @@ app.post("/api/users",async  (req, res) => {
       //     });   
 
       // });
-  const result = await User.create({
+  const result = await User.create({ 
     first_name: body.first_name,
     last_name: body.last_name,
     email: body.email,
