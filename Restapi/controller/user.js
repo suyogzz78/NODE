@@ -1,0 +1,1 @@
+//controlllers are function attached to the routes, they are responsible for handling the request and sending the response
