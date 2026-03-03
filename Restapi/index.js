@@ -1,7 +1,6 @@
 const express = require("express");
 const app = express();
 const port = 3000;
-const filesystem = require("fs");
 const {logrequest} = require("./middlewares/usermid");
 //const users = require("./MOCK_DATA.json");
  
@@ -11,7 +10,9 @@ const {connectToDatabase} = require("./connections");
 //connect to the database
 
 
-connectToDatabase("mongodb://localhost:27017/suyogdb");
+connectToDatabase("mongodb://localhost:27017/suyogdb").then(()=>{
+  console.log("Connected to the database successfully");
+});
 //middleware
 
 app.use(express.urlencoded({ extended: false }));
@@ -28,7 +29,7 @@ app.use((req,res,next)=>{
 
 
 //raw data in json format for frontend consumption
-app.use("/users", userroutes);// this will mount the userroutes on the /users path, so all the routes defined in the userroutes will be prefixed with /users 
+app.use("/api/users", userroutes);// this will mount the userroutes on the /users path, so all the routes defined in the userroutes will be prefixed with /users 
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
