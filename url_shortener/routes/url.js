@@ -1,14 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const {handlecreateShortUrl} = require('../controllers/url');
+const {handlecreateShortUrl,handlegetShortUrl,handlegetAnalytics} = require('../controllers/url');
 
 router.post('/',handlecreateShortUrl);
-router.get('/:shortId',async (req,res)=>{   
-    const shortId = req.params.shortId;
-    const url = await URL.findOne({
-        shortId
-    });
-});
+router.get('/:shortId',handlegetShortUrl);
+router.get('/analytics/:shortId',handlegetAnalytics);
+
 
 
 module.exports =router;
