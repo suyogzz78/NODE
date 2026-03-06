@@ -17,7 +17,44 @@ return res.json({id:shortID});
 
 
 
+
+}
+
+async function handlegetShortUrl(req, res) {
+    const shortId = req.params.shortId;
+
+    const entry = await URL.findOneAndUpdate(
+        { shortId: shortId },
+        {
+            $push: {
+                viewHistory: { timestamp: Date.now() }
+            }
+        }
+    );
+
+    if (!entry) {
+        return res.status(404).send("Short URL not found");
+    }
+
+    res.redirect(entry.redirectUrl);
+}
+
+async function handlegetAnalytics(req, res) {
+    const shortID = req.params.shortId;
+
+   const result =  await URL.findOne(
+        {
+            shortId: shortID
+        }
+    )
+res.json({
+    totalClicks : result.viewHistory.length,
+    analytics : result.viewHistory,
+})
+
 }
 module.exports = {
-    handlecreateShortUrl
+    handlecreateShortUrl,
+    handlegetShortUrl,
+    handlegetAnalytics
 }
