@@ -13,7 +13,12 @@ async function handlecreateShortUrl(req, res) {
 
     });
 
-return res.json({id:shortID});
+    return res.render('homepage',{
+        id:shortID,
+        urls:await URL.find({})
+
+    })
+
 
 
 
