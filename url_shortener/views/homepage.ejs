@@ -8,8 +8,9 @@
   <body>
     <h1>URL SHORTENER</h1>
 
-    <% if (locals.id) %>
-    <p>Shortened URL : http://localhost:8000/url/<%= id %></p>
+    <% if (locals.id) { %>
+<p>Shortened URL : http://localhost:8000/url/<%= id %></p>
+<% } %>
     
     <form method="POST" action="/url">
       <label for="url">Enter the URL to shorten:</label>
