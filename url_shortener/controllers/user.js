@@ -1,5 +1,5 @@
 const User = require("../models/user")
-
+const {v4:uuidv4} = require('uuid');
 async function handleSignup(req,res){
     const {name,email,password} = req.body;
     await User.create(
@@ -7,7 +7,7 @@ async function handleSignup(req,res){
             name,email,password
         }
     );
-
+ 
  return res.redirect('/');
 }
 
@@ -15,7 +15,7 @@ async function handleLogin(req,res){
     const {email,password} = req.body;
     const user = await User.findOne({email,password});
         if(!user){
-            return res.render('login',{error:'Invalid email or password'});
+            return res.render('login',{error:'Invalid email or password. Please try again.'});
         }
  return res.redirect('/');    
 
