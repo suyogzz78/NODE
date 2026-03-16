@@ -5,8 +5,8 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const URL = require('./models/url');
 const {connecttodatabase} = require('./connection');
-const authMiddleware = require('./middlewares/auth');
-
+const {authMiddleware} = require('./middlewares/auth');
+const  {checkauthMiddleware} = require('./middlewares/auth');
 
 // route
 const staticroute = require('./routes/staticroute');
@@ -24,7 +24,7 @@ connecttodatabase('mongodb://localhost:27017/url_shortener').then(()=>{
  app.set('view engine','ejs');//using ejs as template engine for rendering html pages
  app.set('views',path.resolve("./views"));//setting the views directory for ejs templates
  app.use("/url",authMiddleware,urlroute);
- app.use('/',staticroute);
+ app.use('/',checkauthMiddleware,staticroute);
  app.use('/user',userroute);
 // app.get('/test',async(req,res)=>
 // {
