@@ -18,4 +18,14 @@ req.user = user;
 
     next();
 }
-module.exports = authMiddleware;
+
+async function checkauthMiddleware(req, res, next) {
+
+    const uid = req.cookies.sessionId;
+     const user = getUser(uid);
+
+     req.user = user;//if user is not found, req.user will be undefined, which can be handled in the route handlers to allow access to public routes without authentication.
+    next();
+
+}
+module.exports = { authMiddleware, checkauthMiddleware };
