@@ -9,13 +9,14 @@ async function handlecreateShortUrl(req, res) {
     await URL.create({
         shortId: shortID,
         redirectUrl: body.url,
-        viewHistory: []
+        viewHistory: [],
+        createdBy:req.user._id
 
     });
 
     return res.render('homepage',{
         id:shortID,
-        urls:await URL.find({})
+        urls:await URL.find({ createdBy: req.user._id})
 
     })
 
