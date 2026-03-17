@@ -22,9 +22,10 @@ async function handleLogin(req, res) {
     });
   }
 
-  const sessionId = uuidv4();
-  setUser(sessionId, user);
-  res.cookie("sessionId", sessionId);
+
+
+  const token = setUser(user);
+  res.cookie("token", token);
 
   //here the sessionId can be stored in a database or in-memory store to manage user sessions. For simplicity, we are just setting a cookie here.
 
