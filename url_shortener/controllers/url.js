@@ -10,7 +10,7 @@ async function handlecreateShortUrl(req, res) {
         shortId: shortID,
         redirectUrl: body.url,
         viewHistory: [],
-        createdBy:req.user._id
+        createdBy:req.user._id//added createdBy field to associate the shortened URL with the user who created it
 
     });
 
