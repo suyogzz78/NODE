@@ -1,13 +1,26 @@
-const sessionidtouserid = new Map();
+const jwt = require('jsonwebtoken');
+const secretKey = "suyog123";
 
 
-function setUser(id,user){
-    sessionidtouserid.set(id,user);
+function setUser(user){
+
+    const payload = {
+        id:user._id,
+        email:user.email,
+        
+    }
+    return jwt.sign(payload,secretKey,{expiresIn:'1h'});
 }
 
-function getUser(id){
-    return sessionidtouserid.get(id);
+function getUser(token){
+    if(!token) return null;
+    try{
+    return jwt.verify(token,secretKey);
 
+    }
+    catch(err){
+        return null;
+    }
 
 }
 
