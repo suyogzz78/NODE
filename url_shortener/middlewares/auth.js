@@ -21,8 +21,8 @@ req.user = user;
 
 async function checkauthMiddleware(req, res, next) {
 
-    const uid = req.cookies.sessionId;
-     const user = getUser(uid);
+    const token = req.cookies.token;
+     const user = getUser(token);
 
      req.user = user;//if user is not found, req.user will be undefined, which can be handled in the route handlers to allow access to public routes without authentication.
     next();
