@@ -11,7 +11,7 @@ router.get('/',async (req,res)=>{
     //     viewHistory:[]
     // });
     if(!req.user) return res.redirect('/login');
-    const allUrls = await URL.find({createdBy:req.user._id});
+    const allUrls = await URL.find({createdBy:req.user._id});//updated to fetch only the URLs created by the logged-in user
     return  res.render('homepage',{
         // id:shortID,
         urls:allUrls
