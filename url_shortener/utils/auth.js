@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const secretKey = "suyog123";
+const secretKey = "suyog1212"; // In production, use an environment variable to store the secret key
 
 
 function setUser(user){
