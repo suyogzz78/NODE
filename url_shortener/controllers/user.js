@@ -25,7 +25,9 @@ async function handleLogin(req, res) {
 
 
   const token = setUser(user);
-  res.cookie("token", token);
+  res.cookie("token", token,{
+    domain: "localhost", // Adjust this to your domain
+  });
 
   //here the sessionId can be stored in a database or in-memory store to manage user sessions. For simplicity, we are just setting a cookie here.
 
