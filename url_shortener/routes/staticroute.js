@@ -10,7 +10,7 @@ router.get('/',async (req,res)=>{
     //     redirectUrl:'https://www.google.com',
     //     viewHistory:[]
     // });
-    if(!req.user) return res.redirect('/login');
+    if(!req.user) return res.redirect('/login');//
     const allUrls = await URL.find({createdBy:req.user._id});//updated to fetch only the URLs created by the logged-in user
     return  res.render('homepage',{
         // id:shortID,
