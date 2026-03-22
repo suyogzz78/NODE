@@ -25,13 +25,13 @@ async function handleLogin(req, res) {
 
 
   const token = setUser(user);
-  // res.cookie("token", token,{
+   res.cookie("token", token);
   //   domain: "localhost", // added domain for cookie 
   // });
 
   // //here the sessionId can be stored in a database or in-memory store to manage user sessions. For simplicity, we are just setting a cookie here.
 
-  return res.json({ token }); // Send the token in the response body as JSON
+  return res.redirect("/"); // Send the token in the response body as JSON
 }
 
 module.exports = { handleSignup, handleLogin };
