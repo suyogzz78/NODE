@@ -12,6 +12,7 @@ const urlSchema = new mongoose.Schema({
         required:true
     },
     viewHistory:[{ timestamp: { type: Date, default: Date.now } }],
+   
     createdBy:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"users",
