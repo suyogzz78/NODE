@@ -5,17 +5,18 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const URL = require('./models/url');
 const {connecttodatabase} = require('./connection');
-const {authMiddleware} = require('./middlewares/auth');
+const {restriction} = require('./middlewares/auth');
 const  {checkauthMiddleware} = require('./middlewares/auth');
-
+app.use(cookieParser());
 // route
 const staticroute = require('./routes/staticroute');
 const urlroute = require('./routes/url');
 const userroute = require('./routes/user');
 
-app.use(cookieParser());
+
 //middleware
 app.use(express.json());
+app.use(checkauthMiddleware); // Apply the checkauthMiddleware to all routes
 app.use(express.urlencoded({extended:true}));
 connecttodatabase('mongodb://localhost:27017/url_shortener').then(()=>{
     console.log('Connected to database');
@@ -23,8 +24,8 @@ connecttodatabase('mongodb://localhost:27017/url_shortener').then(()=>{
 
  app.set('view engine','ejs');//using ejs as template engine for rendering html pages
  app.set('views',path.resolve("./views"));//setting the views directory for ejs templates
- app.use("/url",authMiddleware,urlroute);
- app.use('/',checkauthMiddleware,staticroute);
+ app.use("/url",restriction(['NORMAL','ADMIN']),urlroute);
+ app.use('/',staticroute);
  app.use('/user',userroute);
 // app.get('/test',async(req,res)=>
 // {
