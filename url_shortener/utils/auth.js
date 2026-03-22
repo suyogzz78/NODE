@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const { removeListener } = require('../models/url');
 const secretKey = "suyog1212"; // In production, use an environment variable to store the secret key
 
 
@@ -7,6 +8,7 @@ function setUser(user){
     const payload = {
         id:user._id,
         email:user.email,
+        role:user.role,
         
     }
     return jwt.sign(payload,secretKey,{expiresIn:'1h'});
