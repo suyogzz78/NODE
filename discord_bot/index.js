@@ -21,8 +21,16 @@ client.on("messageCreate", (message) => {
 
 
 client.on("interactionCreate",(interaction)=>{
-  console.log(interaction);
+  if(!interaction.isChatInputCommand()) return;
+
+  if(interaction.commandName === "ping")
   interaction.reply("pong dhyang dong");
+
+  if(interaction.commandName === "url")
+  interaction.reply("URL shortening feature is coming soon!");
+
+  if(interaction.commandName === "help")
+  interaction.reply("Available commands: /ping, /url, /help");
 
 })
   
