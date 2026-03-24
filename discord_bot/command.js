@@ -6,6 +6,14 @@ const commands = [
     name: 'ping',
     description: 'Replies with Pong!',
   },
+  {
+    name:'url',
+    description:'Shortens a given URL',
+  },
+  {
+    name:'help',
+    description:'Provides information about available commands',
+  }
 ];
 
 const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN);
