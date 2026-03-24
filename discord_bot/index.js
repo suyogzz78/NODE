@@ -2,7 +2,7 @@ import { Client, GatewayIntentBits } from 'discord.js';
 import dotenv from 'dotenv';
 
 dotenv.config();
-
+//addded dotenv to load environment variables from .env file
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
@@ -12,8 +12,18 @@ const client = new Client({
 });
 
 client.on("messageCreate", (message) => {
+
   if (message.author.bot) return;
-  message.reply("Hello user! I am a bot created by NITRO. How can I assist you today?");
+  message.reply("Ghar ki ayad nahi ayi tujhe jassi?");
+
+  console.log(message);
 });
 
+
+client.on("interactionCreate",(interaction)=>{
+  console.log(interaction);
+  interaction.reply("pong dhyang dong");
+
+})
+  
 client.login(process.env.DISCORD_TOKEN);
